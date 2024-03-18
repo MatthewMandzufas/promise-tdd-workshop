@@ -91,7 +91,7 @@ describe('MyPromise', () => {
         });
         describe('after some time', () => {
             describe('and the callback is registered before it rejects', () => {
-                it('should call the registered callback immediately', () => {
+                it('should call the registered callback after it rejects', () => {
                     const executor = (resolve, reject) => {
                         setTimeout(() => {
                             reject();
@@ -112,6 +112,26 @@ describe('MyPromise', () => {
                     expect(
                         functionToCallWhenPromiseHasBeenRejected
                     ).toHaveBeenCalled();
+                });
+            });
+            describe('and the callback is registered after it rejects', () => {
+                it('should call the registered callback immediately', () => {
+                    const executor = (resolve, reject) => {
+                        setTimeout(() => {
+                            reject('This has rejected');
+                        }, 1000);
+                    };
+                    const myPromise = new MyPromise(executor);
+                    const functionToCallWhenPromiseHasBeenRejected = jest.fn();
+                    jest.runAllTimers();
+                    myPromise.then(
+                        undefined,
+                        functionToCallWhenPromiseHasBeenRejected
+                    );
+
+                    expect(
+                        functionToCallWhenPromiseHasBeenRejected
+                    ).toHaveBeenCalledWith('This has rejected');
                 });
             });
         });
