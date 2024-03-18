@@ -136,4 +136,9 @@ describe('MyPromise', () => {
             });
         });
     });
+    it('returns a promise that is immediately resolved to a value', () => {
+        const myResolvedPromise = MyPromise.resolve('Resolved');
+        expect(myResolvedPromise).toBeInstanceOf(MyPromise);
+        expect(myResolvedPromise.state).toBe('fulfilled');
+    });
 });
