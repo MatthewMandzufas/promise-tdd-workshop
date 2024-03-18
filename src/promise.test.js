@@ -140,5 +140,6 @@ describe('MyPromise', () => {
         const myResolvedPromise = MyPromise.resolve('Resolved');
         expect(myResolvedPromise).toBeInstanceOf(MyPromise);
         expect(myResolvedPromise.state).toBe('fulfilled');
+        expect(myResolvedPromise.result).toBe('Resolved');
     });
 });
