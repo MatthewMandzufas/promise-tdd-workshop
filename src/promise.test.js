@@ -206,5 +206,15 @@ describe('MyPromise', () => {
             expect(callback).toHaveBeenCalledWith([1, 2, 3]);
             jest.useRealTimers();
         });
+        describe('given an array of promises passed to MyPromise.allSettled()', () => {
+            it('resolves to an empty array given an empty array', () => {
+                const arrayOfPromises = [];
+                const callback = jest.fn();
+                const newPromise = MyPromise.allSettled(arrayOfPromises);
+                newPromise.then(callback);
+                expect(newPromise).toBeInstanceOf(MyPromise);
+                expect(callback).toHaveBeenCalledWith([]);
+            });
+        });
     });
 });
