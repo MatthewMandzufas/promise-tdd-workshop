@@ -142,4 +142,17 @@ describe('MyPromise', () => {
         expect(myResolvedPromise.state).toBe('fulfilled');
         expect(myResolvedPromise.result).toBe('Resolved');
     });
+    it('returns a promise that is immediately rejected to a value', () => {
+        const functionToCallWhenPromiseHasBeenRejected = jest.fn();
+        const rejectedPromise = MyPromise.reject('Rejected');
+
+        rejectedPromise.then(
+            undefined,
+            functionToCallWhenPromiseHasBeenRejected
+        );
+        expect(rejectedPromise).toBeInstanceOf(MyPromise);
+        expect(functionToCallWhenPromiseHasBeenRejected).toHaveBeenCalledWith(
+            'Rejected'
+        );
+    });
 });

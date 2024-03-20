@@ -49,4 +49,10 @@ MyPromise.resolve = (result) => {
     }
     return new MyPromise(executor);
 };
+
+MyPromise.reject = (value) => {
+    return new MyPromise((resolve, reject) => {
+        reject(value);
+    });
+};
 export default MyPromise;
