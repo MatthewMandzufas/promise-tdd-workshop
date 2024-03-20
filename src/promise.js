@@ -74,4 +74,8 @@ MyPromise.all = function (arrayOfPromises) {
     }
     return MyPromise.resolve(arrayOfResults);
 };
+
+MyPromise.allSettled = function (arrayOfPromises) {
+    return MyPromise.resolve([]);
+};
 export default MyPromise;
