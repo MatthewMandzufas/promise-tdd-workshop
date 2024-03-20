@@ -188,5 +188,23 @@ describe('MyPromise', () => {
             expect(rejectCallback).toHaveBeenCalledWith('Rejected');
             expect(myPromise).toBeInstanceOf(MyPromise);
         });
+        it('resolves to an iterable of results matching the order of promises in the iterable', () => {
+            jest.useFakeTimers();
+            const callback = jest.fn();
+            const promises = [
+                MyPromise.resolve(1),
+                new MyPromise((resolve) => {
+                    setTimeout(() => {
+                        resolve(2);
+                    }, 1000);
+                }),
+                MyPromise.resolve(3),
+            ];
+            const myPromise = MyPromise.all(promises);
+            myPromise.then(callback);
+            jest.runAllTimers();
+            expect(callback).toHaveBeenCalledWith(1, 2, 3);
+            jest.useRealTimers();
+        });
     });
 });
