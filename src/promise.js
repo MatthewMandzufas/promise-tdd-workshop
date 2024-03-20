@@ -43,13 +43,11 @@ function MyPromise(executor = () => {}) {
     executor(this.functionToResolveThePromise, this.functionToRejectThePromise);
 }
 
-MyPromise.resolve = (result) => {
-    function executor(functionToResolveThePromise) {
-        functionToResolveThePromise(result);
-    }
-    return new MyPromise(executor);
+MyPromise.resolve = (value) => {
+    return new MyPromise((resolve, reject) => {
+        resolve(value);
+    });
 };
-
 MyPromise.reject = (value) => {
     return new MyPromise((resolve, reject) => {
         reject(value);
@@ -58,10 +56,21 @@ MyPromise.reject = (value) => {
 
 MyPromise.all = function (arrayOfPromises) {
     const arrayOfResults = [];
-    for (let i = 0; i < arrayOfPromises.length; i++) {
-        arrayOfPromises[i].then((resolvedValue) => {
-            arrayOfResults.push(resolvedValue);
-        });
+    let rejectedPromiseResult;
+    let isRejected = false;
+    for (let i = 0; i < arrayOfPromises.length && !isRejected; i++) {
+        arrayOfPromises[i].then(
+            (resolvedValue) => {
+                arrayOfResults.push(resolvedValue);
+            },
+            (rejectValue) => {
+                rejectedPromiseResult = rejectValue;
+                isRejected = true;
+            }
+        );
+    }
+    if (isRejected) {
+        return MyPromise.reject(rejectedPromiseResult);
     }
     return MyPromise.resolve(arrayOfResults);
 };
