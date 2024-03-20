@@ -164,5 +164,17 @@ describe('MyPromise', () => {
             expect(newPromise).toBeInstanceOf(MyPromise);
             expect(callback).toHaveBeenCalledWith([]);
         });
+        it('resolves to an array of results, given all promises resolve', () => {
+            const arrayOfPromises = [
+                MyPromise.resolve(1),
+                MyPromise.resolve(2),
+                MyPromise.resolve(3),
+            ];
+            const callback = jest.fn();
+            const myPromise = MyPromise.all(arrayOfPromises);
+            myPromise.then(callback);
+            expect(myPromise).toBeInstanceOf(MyPromise);
+            expect(callback).toHaveBeenCalledWith([1, 2, 3]);
+        });
     });
 });
