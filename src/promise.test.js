@@ -156,10 +156,11 @@ describe('MyPromise', () => {
         );
     });
     describe('given an array of promises passed to MyPromise.all()', () => {
-        it('returns a fulfilled promise given an empty array', () => {
+        it('resolves to an empty array, given an empty array', () => {
             const arrayOfPromises = [];
             const callback = jest.fn();
             const newPromise = MyPromise.all(arrayOfPromises);
+            newPromise.then(callback);
             expect(newPromise).toBeInstanceOf(MyPromise);
             expect(callback).toHaveBeenCalledWith([]);
         });
