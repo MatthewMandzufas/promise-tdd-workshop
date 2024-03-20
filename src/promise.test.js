@@ -155,4 +155,13 @@ describe('MyPromise', () => {
             'Rejected'
         );
     });
+    describe('given an array of promises passed to MyPromise.all()', () => {
+        it('returns a fulfilled promise given an empty array', () => {
+            const arrayOfPromises = [];
+            const callback = jest.fn();
+            const newPromise = MyPromise.all(arrayOfPromises);
+            expect(newPromise).toBeInstanceOf(MyPromise);
+            expect(callback).toHaveBeenCalledWith([]);
+        });
+    });
 });
