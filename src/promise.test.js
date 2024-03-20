@@ -203,7 +203,7 @@ describe('MyPromise', () => {
             const myPromise = MyPromise.all(promises);
             myPromise.then(callback);
             jest.runAllTimers();
-            expect(callback).toHaveBeenCalledWith(1, 2, 3);
+            expect(callback).toHaveBeenCalledWith([1, 2, 3]);
             jest.useRealTimers();
         });
     });

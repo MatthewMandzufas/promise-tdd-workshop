@@ -61,7 +61,7 @@ MyPromise.all = function (arrayOfPromises) {
     for (let i = 0; i < arrayOfPromises.length && !isRejected; i++) {
         arrayOfPromises[i].then(
             (resolvedValue) => {
-                arrayOfResults.push(resolvedValue);
+                arrayOfResults[i] = resolvedValue;
             },
             (rejectValue) => {
                 rejectedPromiseResult = rejectValue;
